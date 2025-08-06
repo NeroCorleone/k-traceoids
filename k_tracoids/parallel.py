@@ -2,7 +2,7 @@ import multiprocessing as mp
 import os
 import logging
 
-import tk_means as tkm
+import k_tracoids as ktr
 
 _logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ def worker(task_queue, result_queue):
         params = task_queue.get()
         if params is None:
             break
-        result = tkm.algorithm.tk_means(params)
+        result = ktr.algorithm.tk_means(params)
         result_queue.put((params, result))
 
 
@@ -76,12 +76,12 @@ def write_results(results, result_dir):
         cluster_assignment, all_fitness, all_models, all_times = result 
         cluster_assignment.to_csv(os.path.join(run_dir, "ca.csv"))
 
-        tkm.data.store_time(run_dir, all_times)
+        ktr.data.store_time(run_dir, all_times)
 
         for iteration in range(len(all_fitness)):
             models = all_models[iteration]
             fitness = all_fitness[iteration]
-            tkm.data.store_intermediate_results(models, fitness, iteration, run_dir)
+            ktr.data.store_intermediate_results(models, fitness, iteration, run_dir)
 
 
 def write_result(params, result, result_dir):
@@ -96,12 +96,12 @@ def write_result(params, result, result_dir):
     cluster_assignment, all_fitness, all_models, all_times = result 
     cluster_assignment.to_csv(os.path.join(run_dir, "ca.csv"))
 
-    tkm.data.store_time(run_dir, all_times)
+    ktr.data.store_time(run_dir, all_times)
 
     for iteration in range(len(all_fitness)):
         models = all_models[iteration]
         fitness = all_fitness[iteration]
-        tkm.data.store_intermediate_results(models, fitness, iteration, run_dir)
+        ktr.data.store_intermediate_results(models, fitness, iteration, run_dir)
 
 def writer(result_queue, result_dir, num_tasks):
     for _ in range(num_tasks):

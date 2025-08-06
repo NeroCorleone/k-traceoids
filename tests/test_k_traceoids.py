@@ -1,4 +1,4 @@
-import tk_means.algorithm as tkm
+import k_tracoids.algorithm as ktr
 import pandas as pd
 
 
@@ -21,7 +21,7 @@ def test__best_cluster_assignment():
         3: 2,  # all equal, prev match
     })
 
-    result = tkm.reassign_clusters(
+    result = ktr.reassign_clusters(
         fitness, cluster_assignment, k
     )
 
@@ -33,15 +33,15 @@ def test__ensure_cluster_non_empty():
 
     best_cluster = pd.Series([0, 1, 2])
     expected = pd.Series([0, 1, 2])
-    actual = tkm.ensure_cluster_non_empty(best_cluster, k)
+    actual = ktr.ensure_cluster_non_empty(best_cluster, k)
     pd.testing.assert_series_equal(expected, actual)
 
     best_cluster = pd.Series([0, 1, 0])
-    actual = tkm.ensure_cluster_non_empty(best_cluster, k)
+    actual = ktr.ensure_cluster_non_empty(best_cluster, k)
     assert 2 in actual
 
 
     best_cluster = pd.Series([0, 0, 0])
-    actual = tkm.ensure_cluster_non_empty(best_cluster, k)
+    actual = ktr.ensure_cluster_non_empty(best_cluster, k)
     assert 2 in actual
     assert 1 in actual

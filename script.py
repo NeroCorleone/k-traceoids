@@ -1,6 +1,6 @@
 import multiprocessing as mp
 import os
-import tk_means as tkm
+import k_tracoids as ktr
 import logging
 
 logging.basicConfig(
@@ -13,27 +13,24 @@ logging.basicConfig(
 
 # Parameters
 datasets = [
-    # "bpi2019-sample", "road_traffic", "sepsis",
-    "bpi2019-sample"
+    "bpi2019-sample", "road_traffic", "sepsis",
 ]
 pms = [
-    # 'imf', "hm", "dfg",
-    "imf"
+    'imf', "hm", "dfg",
 ]
 ccs = [
-    # "tbr", 
-    "al",
+    "tbr", "al",
 ]
 
-ks = range(5, 6 ,1) # range(2, 11, 1)
-max_iterations = 2 #10 # 100 
+ks = range(2, 11, 1)
+max_iterations = 100 
 num_workers = int(mp.cpu_count())
-result_dir = tkm.data.make_result_dir()
+result_dir = ktr.data.make_result_dir()
 
 for ds in datasets:
-    log = tkm.data.read_log(
+    log = ktr.data.read_log(
         os.path.abspath(f"./datasets/{ds}.xes")
     )
-    trace_to_variant = tkm.data.get_variants(log)
+    trace_to_variant = ktr.data.get_variants(log)
     log = log.merge(trace_to_variant)
-    tkm.parallel.execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir)
+    ktr.parallel.execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir)
