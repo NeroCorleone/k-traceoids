@@ -24,7 +24,8 @@ ccs = [
 
 ks = range(2, 11, 1)
 max_iterations = 100 
-num_workers = int(mp.cpu_count())
+# for both writers and workers
+num_workers = int(mp.cpu_count() / 2)
 result_dir = ktr.data.make_result_dir()
 
 for ds in datasets:

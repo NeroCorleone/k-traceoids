@@ -6,12 +6,13 @@ import k_traceoids as ktr
 
 _logger = logging.getLogger(__name__)
 
+
 def execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
     _logger.info(f"Starting to execute for dataset {ds}...")
     tq = mp.Queue()
     rq = mp.Queue()
 
-    # Fill task queue
+    # Fill the task queue
     for pm in pms:
         for cc in ccs:
             for k in ks:
@@ -22,19 +23,38 @@ def execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
 
     _logger.info("Starting to cluster...")
 
-    # Start writer process
-    writer_proc = mp.Process(target=writer, args=(rq, result_dir, num_tasks))
-    writer_proc.start()
+    # Start the writer processes
+    writers = []
+    for _ in range(num_workers):
+        writer_proc = mp.Process(target=writer, args=(rq, result_dir, num_tasks))
+        writer_proc.start()
+        writers.append(writer_proc)
 
-    # Start worker processes
-    cluster_parallel(tq, rq, num_workers)
+    # Add break condition for workers
+    for _ in range(num_workers):
+        tq.put(None)
 
-    # Wait for writer to finish
-    writer_proc.join()
+    # Start the workers: clustering
+    workers = []
+    for _ in range(num_workers):
+        worker_proc = mp.Process(target=worker, args=(tq, rq))
+        worker_proc.start()
+        workers.append(worker_proc)
+
+    # Wait for workers to finish
+    for p in workers:
+        p.join()
+    
+    # Add break condition for writers
+    for _ in range(num_workers):
+        rq.put(None)
+
+    # Wait for writers
+    for p in writers:
+        p.join()
 
     _logger.info("Clustering and writing done.")
 
-   
 
 def worker(task_queue, result_queue):
     while True:
@@ -45,43 +65,15 @@ def worker(task_queue, result_queue):
         result_queue.put((params, result))
 
 
-
-def cluster_parallel(tq, rq, num_workers):
-    workers = []
-
-    # Signal end of queue for workers
-    for _ in range(num_workers):
-        tq.put(None)
-
-    for _ in range(num_workers):
-        p = mp.Process(target=worker, args=(tq, rq))
-        p.start()
-        workers.append(p)
-
-    for p in workers:
-        p.join()
-
-
-def write_results(results, result_dir):
-    for params, result in results:
-        log, k, pm, cc, max_iterations, ds = params
+def writer(result_queue, result_dir, num_tasks):
+    for _ in range(num_tasks):
+        res = result_queue.get()
+        if res is None:
+            break
+        params, result = res
         if result is None:
             continue
-        run_dir = os.path.join(
-            result_dir,
-            f"{ds}/pm_{pm}/cc_{cc}/k_{k}/max_iter_{max_iterations}",
-        )
-        if not os.path.isdir(run_dir):
-            os.makedirs(run_dir)
-        cluster_assignment, all_fitness, all_models, all_times = result 
-        cluster_assignment.to_csv(os.path.join(run_dir, "ca.csv"))
-
-        ktr.data.store_time(run_dir, all_times)
-
-        for iteration in range(len(all_fitness)):
-            models = all_models[iteration]
-            fitness = all_fitness[iteration]
-            ktr.data.store_intermediate_results(models, fitness, iteration, run_dir)
+        write_result(params, result, result_dir)
 
 
 def write_result(params, result, result_dir):
@@ -102,10 +94,3 @@ def write_result(params, result, result_dir):
         models = all_models[iteration]
         fitness = all_fitness[iteration]
         ktr.data.store_intermediate_results(models, fitness, iteration, run_dir)
-
-def writer(result_queue, result_dir, num_tasks):
-    for _ in range(num_tasks):
-        params, result = result_queue.get()
-        if result is None:
-            continue
-        write_result(params, result, result_dir)
