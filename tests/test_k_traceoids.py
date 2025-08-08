@@ -1,4 +1,4 @@
-import k_tracoids.algorithm as ktr
+import k_traceoids.algorithm as ktr
 import pandas as pd
 
 

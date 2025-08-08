@@ -1,6 +1,6 @@
 import multiprocessing as mp
 import os
-import k_tracoids as ktr
+import k_traceoids as ktr
 import logging
 
 logging.basicConfig(

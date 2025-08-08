@@ -2,7 +2,7 @@ import multiprocessing as mp
 import os
 import logging
 
-import k_tracoids as ktr
+import k_traceoids as ktr
 
 _logger = logging.getLogger(__name__)
 
