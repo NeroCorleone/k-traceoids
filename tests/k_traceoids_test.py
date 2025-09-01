@@ -1,10 +1,17 @@
-import k_traceoids.algorithm as ktr
 import pandas as pd
+
+import k_traceoids.algorithm as ktr
 
 
 def test__best_cluster_assignment():
     k = 3
-    fitness = pd.DataFrame({"0": [0.8, 0.9, 0.9, 0.3], "1": [0.6, 0.9, 0.8, 0.3], "2": [0.4, 0.5, 0.9, 0.3]})
+    fitness = pd.DataFrame(
+        {
+            "0": [0.8, 0.9, 0.9, 0.3],
+            "1": [0.6, 0.9, 0.8, 0.3],
+            "2": [0.4, 0.5, 0.9, 0.3],
+        }
+    )
 
     cluster_assignment = pd.DataFrame(
         {
@@ -21,7 +28,11 @@ def test__best_cluster_assignment():
         }
     )
 
-    result = ktr.reassign_clusters(fitness, cluster_assignment, k)
+    result = ktr.reassign_clusters(
+        fitness,
+        cluster_assignment,
+        k,
+    )
 
     pd.testing.assert_series_equal(result, expected)
 

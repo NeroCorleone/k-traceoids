@@ -3,7 +3,7 @@
 ## Overview
 
 **k-traceoids** is a structure-preserving trace clustering framework designed for event log analysis inspired by k-means.
-By operating directlz on trace data rather than vectorized representations, **k-traceoids** maintains the sequence of activities.
+By operating directly on trace data rather than vectorized representations, **k-traceoids** maintains the sequence of activities.
 
 This framework was proposed in our [research paper](#) (link to be added). It addresses the shortcomings of traditional clustering techniques that transform traces into vectors, often losing essential sequencing information by treating them as unordered sets of events.
 
@@ -63,4 +63,3 @@ At convergence, the final process models and cluster assignments are produced.
    ```bash
    python script.py
    ```
-

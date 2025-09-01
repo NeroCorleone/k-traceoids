@@ -1,8 +1,7 @@
-import pandas as pd
-import os
-import pm4py
 import datetime
+import os
 
+import pandas as pd
 import pm4py
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
 
@@ -25,7 +24,7 @@ def store_intermediate_results(models, fitness, iteration, result_dir):
     # Store fitness results
     fitness_file = os.path.join(
         fitness_dir,
-        f"fitness.csv"
+        "fitness.csv",
     )
     fitness.to_csv(fitness_file)
 
@@ -33,7 +32,7 @@ def store_intermediate_results(models, fitness, iteration, result_dir):
         # Store model
         m_file = os.path.join(
             model_dir,
-            f"model_{model_nb}.json"  # Model nb is the cluster nb
+            f"model_{model_nb}.json",  # Model nb is the cluster nb
         )
         pnet, im, fm = model
         pm4py.write_pnml(pnet, im, fm, m_file)
@@ -42,12 +41,13 @@ def store_intermediate_results(models, fitness, iteration, result_dir):
         gviz = pn_visualizer.apply(pnet, im, fm)
         m_plot = os.path.join(
             model_dir,
-            f"model_plot{model_nb}.png"
+            f"model_plot{model_nb}.png",
         )
         pn_visualizer.save(gviz, m_plot)
 
+
 def make_result_dir():
-    runtime = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+    runtime = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     result_dir = os.path.abspath(f"results/{runtime}")
     if not os.path.isdir(result_dir):
         os.makedirs(result_dir)
@@ -58,7 +58,7 @@ def read_log(event_file):
     df = pm4py.read_xes(event_file)
     log = pm4py.format_dataframe(
         df,
-        case_id="case:concept:name", 
+        case_id="case:concept:name",
         activity_key="concept:name",
         timestamp_key="time:timestamp",
     )
@@ -72,10 +72,9 @@ def get_variants(log):
         for tid in traces["case:concept:name"].unique():
             trace_to_variant.append([tid, vid, v])
         vid += 1
-    
+
     trace_to_variant = pd.DataFrame(
         trace_to_variant,
-        columns=["case:concept:name", "variant_id", "variant"]
+        columns=["case:concept:name", "variant_id", "variant"],
     )
     return trace_to_variant
-

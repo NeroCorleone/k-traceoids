@@ -1,6 +1,6 @@
+import logging
 import multiprocessing as mp
 import os
-import logging
 
 import k_traceoids as ktr
 
@@ -18,7 +18,7 @@ def execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
             for k in ks:
                 params = [log, k, pm, cc, max_iterations, ds]
                 tq.put(params)
-    
+
     num_tasks = len(pms) * len(ccs) * len(ks)
 
     _logger.info("Starting to cluster...")
@@ -26,7 +26,10 @@ def execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
     # Start the writer processes
     writers = []
     for _ in range(num_workers):
-        writer_proc = mp.Process(target=writer, args=(rq, result_dir, num_tasks))
+        writer_proc = mp.Process(
+            target=writer,
+            args=(rq, result_dir, num_tasks),
+        )
         writer_proc.start()
         writers.append(writer_proc)
 
@@ -44,7 +47,7 @@ def execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
     # Wait for workers to finish
     for p in workers:
         p.join()
-    
+
     # Add break condition for writers
     for _ in range(num_workers):
         rq.put(None)
@@ -78,14 +81,16 @@ def writer(result_queue, result_dir, num_tasks):
 
 def write_result(params, result, result_dir):
     log, k, pm, cc, max_iterations, ds = params
-    print(f"Writing results for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}")
+    print(
+        f"Writing results for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
+    )
     run_dir = os.path.join(
         result_dir,
         f"{ds}/pm_{pm}/cc_{cc}/k_{k}/max_iter_{max_iterations}",
     )
     if not os.path.isdir(run_dir):
         os.makedirs(run_dir)
-    cluster_assignment, all_fitness, all_models, all_times = result 
+    cluster_assignment, all_fitness, all_models, all_times = result
     cluster_assignment.to_csv(os.path.join(run_dir, "ca.csv"))
 
     ktr.data.store_time(run_dir, all_times)
@@ -93,4 +98,9 @@ def write_result(params, result, result_dir):
     for iteration in range(len(all_fitness)):
         models = all_models[iteration]
         fitness = all_fitness[iteration]
-        ktr.data.store_intermediate_results(models, fitness, iteration, run_dir)
+        ktr.data.store_intermediate_results(
+            models,
+            fitness,
+            iteration,
+            run_dir,
+        )
