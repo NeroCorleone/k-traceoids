@@ -1,6 +1,4 @@
 import concurrent.futures
-import multiprocessing as mp
-import multiprocessing.pool as mp_pool
 import time
 import traceback
 import warnings
@@ -51,7 +49,7 @@ def tk_means(params):
             start_time = time.time()
 
             print(
-                f"Discovering process models for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
+                f"Discovering process models for {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )
             models = discover_process_model(log, pm, cluster_assignment)
             print(
@@ -82,9 +80,9 @@ def tk_means(params):
                 # df, list[df], list[models]
                 return (cluster_assignment, all_fitness, all_models, all_times)
             iteration += 1
-        except Exception as e:
+        except Exception:
             print(
-                f"Tk-means run failed with exceptions with parameters k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
+                f"Tk-means run failed with parameters k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )
             print(traceback.format_exc())
             return None
@@ -151,7 +149,7 @@ def determine_best_cluster(fitness, cluster_assignment):
     prev_cluster_col = cluster_assignment.columns[-1]
 
     for trace, row in is_max.iterrows():
-        tied_clusters = row[row == True].index  # .tolist()
+        tied_clusters = row[row == True].index  # noqa
         prev_cluster = cluster_assignment.loc[trace][prev_cluster_col]
 
         if prev_cluster in tied_clusters:
