@@ -40,26 +40,37 @@ At convergence, the final process models and cluster assignments are produced.
 
 ## Installation and Setup
 
-1. Create a virtual environment:
+1. Clone this repository
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+```bash
+git clone git@github.com:NeroCorleone/k-traceoids.git
+cd k-traceoids
+```
 
-2. Install dependencies:
+2. Install poetry
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+Follow the [official installation guide](https://python-poetry.org/docs/)
 
+3. Install dependencies
+
+```bash
+poetry install
+```
+
+This will create a virtual environment, install all dependencies listed in pyproject.toml and install this package in editable mode.
 
 ## Usage
 
-1. Set hyperparameters (`k`, `max_iterations`, etc.) in `script.py`.
+1. Activate the virtual environment
 
-2. Run the script:
+```bash
+eval $(poetry env activate)
+```
 
-   ```bash
-   python script.py
-   ```
+2. Cluster traces on a test dataset
+
+Example usage: set hyperparameters (`k`, `max_iterations`, etc.) in `script.py`.
+
+```python
+python script.py
+```

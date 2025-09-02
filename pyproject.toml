@@ -1,0 +1,27 @@
+[project]
+name = "k-traceoids"
+version = "0.1.0"
+description = "A Python library for clustering traces"
+authors = [
+    {name = "Nefta Kanilmaz",email = "nefta.kanilmaz@gmail.com"}
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pandas (>=2.3.2,<3.0.0)",
+    "numpy (>=2.3.2,<3.0.0)",
+    "pm4py (>=2.7.17,<3.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+flake8 = "^7.3.0"
+pytest = "^8.4.1"
+ipykernel = "^6.30.1"
+pre-commit = "^4.3.0"
