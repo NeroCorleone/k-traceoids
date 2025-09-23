@@ -30,7 +30,7 @@ def tk_means(params):
             print(
                 f"Discovering process models for {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )
-            models = ktr.models.discover_process_model(log, pm, cluster_assignment)
+            models = ktr.models.calculate_model(log, pm, cluster_assignment)
             print(
                 f"Checking conformance for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )

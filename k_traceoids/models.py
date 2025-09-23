@@ -14,19 +14,7 @@ PARAMS_IMF = {"noise_threshold": 0.2}
 PARAMS_DFG = {"noise_threshold": 0.2}
 
 
-def discover_process_model(log, pm, cluster_assignment):
-    if pm not in {"imf", "hm", "dfg"}:
-        raise Exception(f"Unknown process discovery model {pm}")
-    if pm == "imf":
-        models = discover_process_model_imf(log, cluster_assignment)
-    if pm == "hm":
-        models = discover_process_model_hm(log, cluster_assignment)
-    if pm == "dfg":
-        models = discover_process_model_dfg(log, cluster_assignment)
-    return models
-
-
-def discover_process_model_dfg(log, cluster_assignment):
+def _calculate_dfg(log, cluster_assignment):
     models = []
     ca_col = cluster_assignment.columns[-1]  # Latest cluster assignment column
     for _, df_ in cluster_assignment.groupby(ca_col):
@@ -50,7 +38,7 @@ def discover_process_model_dfg(log, cluster_assignment):
     return models
 
 
-def discover_process_model_imf(log, cluster_assignment):
+def _calculate_imf(log, cluster_assignment):
     # Discover pm with inductive miner infrequent
     models = []
     ca_col = cluster_assignment.columns[-1]  # Latest cluster assignment column
@@ -71,7 +59,7 @@ def discover_process_model_imf(log, cluster_assignment):
     return models
 
 
-def discover_process_model_hm(log, cluster_assignment):
+def _calculate_hm(log, cluster_assignment):
     # Discover pm with heuristic miner algorithm
     ca_col = cluster_assignment.columns[-1]  # Latest cluster assignment column
 
@@ -81,4 +69,19 @@ def discover_process_model_hm(log, cluster_assignment):
         models.append(
             heuristics_miner.apply(traces, parameters=PARAMS_HM),
         )
+    return models
+
+
+MODELS = {
+    "imf": _calculate_imf,
+    "hm": _calculate_hm,
+    "dfg": _calculate_dfg,
+}
+
+
+def calculate_model(log, pm, cluster_assignment):
+    model_func = MODELS.get(pm)
+    if model_func is None:
+        raise Exception(f"Unknown process discovery model {pm}")
+    models = model_func(log, cluster_assignment)
     return models
