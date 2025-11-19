@@ -54,7 +54,8 @@ def make_result_dir():
     return result_dir
 
 
-def read_log(event_file):
+def prepare_log(event_file):
+    # Read log and add variant column -- needed for initialization
     df = pm4py.read_xes(event_file)
     log = pm4py.format_dataframe(
         df,
@@ -62,6 +63,8 @@ def read_log(event_file):
         activity_key="concept:name",
         timestamp_key="time:timestamp",
     )
+    trace_to_variant = get_variants(log)
+    log = log.merge(trace_to_variant)
     return log
 
 

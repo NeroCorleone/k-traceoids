@@ -12,18 +12,19 @@ def execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
     tq = mp.Queue()
     rq = mp.Queue()
 
-    # Fill the task queue
+    _logger.info(f"Filling task queue...")
     for pm in pms:
         for cc in ccs:
             for k in ks:
                 params = [log, k, pm, cc, max_iterations, ds]
                 tq.put(params)
+    _logger.info(f"Task queue filled.")
 
     num_tasks = len(pms) * len(ccs) * len(ks)
 
     _logger.info("Starting to cluster...")
 
-    # Start the writer processes
+    _logger.info("Starting writer processes...")
     writers = []
     for _ in range(num_workers):
         writer_proc = mp.Process(
@@ -32,29 +33,35 @@ def execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
         )
         writer_proc.start()
         writers.append(writer_proc)
+    _logger.info("Writer processes started.")
 
-    # Add break condition for workers
+    _logger.info("Adding break conditions for workers...")
     for _ in range(num_workers):
         tq.put(None)
+    _logger.info("Break conditions for workers added,")
 
-    # Start the workers: clustering
+    _logger.info("Starting worker processes...")
     workers = []
     for _ in range(num_workers):
         worker_proc = mp.Process(target=worker, args=(tq, rq))
         worker_proc.start()
         workers.append(worker_proc)
+    _logger.info("Worker processes started.")
 
-    # Wait for workers to finish
+    _logger.info("Waiting for workers to finish...")
     for p in workers:
         p.join()
+    _logger.info("Workers finished.")
 
-    # Add break condition for writers
+    _logger.info("Adding break conditions for writers...")
     for _ in range(num_workers):
         rq.put(None)
+    _logger.info("Break conditions for writers added.")
 
-    # Wait for writers
+    _logger.info("Waiting for writers to finish...")
     for p in writers:
         p.join()
+    _logger.info("Writers finished.")
 
     _logger.info("Clustering and writing done.")
 
@@ -64,7 +71,7 @@ def worker(task_queue, result_queue):
         params = task_queue.get()
         if params is None:
             break
-        result = ktr.algorithm.tk_means(params)
+        result = ktr.algorithm.cluster(params)
         result_queue.put((params, result))
 
 
@@ -80,7 +87,7 @@ def writer(result_queue, result_dir, num_tasks):
 
 
 def write_result(params, result, result_dir):
-    log, k, pm, cc, max_iterations, ds = params
+    _, k, pm, cc, max_iterations, ds = params
     print(
         f"Writing results for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
     )

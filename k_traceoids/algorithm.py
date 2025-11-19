@@ -11,11 +11,11 @@ warnings.filterwarnings("ignore", category=Warning, module="pandas")
 
 np.random.seed(42)
 
-
-def tk_means(params):
+# TODO Split this up into A) Core clustering logic and B) Experimental result, times, fitnesses, etc...
+def cluster(params):
     log, k, pm, cc, max_iterations, ds = params
     print(
-        f"Starting tk-means for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
+        f"Starting k-traceoids for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
     )
 
     iteration = 0
@@ -54,14 +54,14 @@ def tk_means(params):
 
             if check_convergence(cluster_assignment, iteration, max_iterations):
                 print(
-                    f"Tk-means run complete with parameters k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
+                    f"K-traceoids run complete with parameters k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
                 )
                 # df, list[df], list[models]
                 return (cluster_assignment, all_fitness, all_models, all_times)
             iteration += 1
         except Exception:
             print(
-                f"Tk-means run failed with parameters k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
+                f"K-traceoids run failed with parameters k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )
             print(traceback.format_exc())
             return None
