@@ -42,10 +42,12 @@ def _calculate_imf(log, cluster_assignment):
     # Discover pm with inductive miner infrequent
     models = []
     ca_col = cluster_assignment.columns[-1]  # Latest cluster assignment column
+    print("About to calculate IMF models...")
     for _, df_ in cluster_assignment.groupby(ca_col):
         traces = log[log["@@case_index"].isin(df_["case_index"])]
         # TODO why necessary?
         # TODO replace this
+        print(f"Getting variants for cluster {_}")
         variants = pm4py.get_variants(traces)
         uvcl = UVCL()
 
@@ -53,7 +55,9 @@ def _calculate_imf(log, cluster_assignment):
             uvcl[var] = occ
 
         imfuvcl = IMFUVCL(PARAMS_IMF)
+        print("Getting tree from IMF...")
         tree = imfuvcl.apply(IMDataStructureUVCL(uvcl), parameters=PARAMS_IMF)
+        print("Converting to Petri net...")
         model = pm4py.convert_to_petri_net(tree)
         models.append(model)
     return models

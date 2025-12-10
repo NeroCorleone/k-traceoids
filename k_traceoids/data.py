@@ -56,6 +56,7 @@ def make_result_dir():
 
 def prepare_log(event_file):
     # Read log and add variant column -- needed for initialization
+    print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} Reading log from {event_file}...")
     df = pm4py.read_xes(event_file)
     log = pm4py.format_dataframe(
         df,
@@ -65,10 +66,12 @@ def prepare_log(event_file):
     )
     trace_to_variant = get_variants(log)
     log = log.merge(trace_to_variant)
+    print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} finished reading log.")
     return log
 
 
 def get_variants(log):
+    print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} Extracting process variants from log...")
     trace_to_variant = []
     vid = 0
     for v, traces in pm4py.stats.split_by_process_variant(log):
@@ -80,4 +83,5 @@ def get_variants(log):
         trace_to_variant,
         columns=["case:concept:name", "variant_id", "variant"],
     )
+    print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} finished extracting process variants from log.")
     return trace_to_variant

@@ -1,4 +1,5 @@
 import time
+import datetime
 import traceback
 import warnings
 import numpy as np
@@ -26,19 +27,22 @@ def cluster(params):
     while True:
         try:
             start_time = time.time()
+            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             print(
-                f"Discovering process models for {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
+                f"{now} Discovering process models for {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )
             models = ktr.models.calculate_model(log, pm, cluster_assignment)
+            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(
-                f"Checking conformance for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
+                f"{now} Checking conformance for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )
             fitness = ktr.conformance.check_conformance(log, models, cc)
             ca_col = f"cluster_assignment_{iteration}"
 
+            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(
-                f"Reassining clusters for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
+                f"{now} Reassining clusters for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )
             cluster_assignment[ca_col] = ktr.reassign.reassign_clusters(
                 fitness,
