@@ -25,3 +25,14 @@ flake8 = "^7.3.0"
 pytest = "^8.4.1"
 ipykernel = "^6.30.1"
 pre-commit = "^4.3.0"
+
+[tool.poetry.group.eval.dependencies]
+seaborn = "^0.13.2"
+matplotlib = "^3.10.6"
+scipy = "^1.16.2"
+scikit-learn = "^1.7.2"
+graphviz = "^0.21"
+nltk = "^3.9.2"
+gensim = "^4.4.0"
+jinja2 = "^3.1.6"
+
