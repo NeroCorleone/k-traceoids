@@ -9,7 +9,6 @@ warnings.filterwarnings("ignore", category=Warning, module="pm4py")
 warnings.filterwarnings("ignore", category=Warning, module="pd")
 warnings.filterwarnings("ignore", category=Warning, module="pandas")
 
-np.random.seed(42)
 
 # TODO Split this up into A) Core clustering logic and B) Experimental result, times, fitnesses, etc...
 def cluster(params):

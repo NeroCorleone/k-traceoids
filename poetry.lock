@@ -1797,6 +1797,69 @@ tqdm = "*"
 wheel = "*"
 
 [[package]]
+name = "polars"
+version = "1.36.1"
+description = "Blazingly fast DataFrame library"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "polars-1.36.1-py3-none-any.whl", hash = "sha256:853c1bbb237add6a5f6d133c15094a9b727d66dd6a4eb91dbb07cdb056b2b8ef"},
+    {file = "polars-1.36.1.tar.gz", hash = "sha256:12c7616a2305559144711ab73eaa18814f7aa898c522e7645014b68f1432d54c"},
+]
+
+[package.dependencies]
+pandas = {version = "*", optional = true, markers = "extra == \"pandas\""}
+polars-runtime-32 = "1.36.1"
+pyarrow = {version = ">=7.0.0", optional = true, markers = "extra == \"pyarrow\""}
+
+[package.extras]
+adbc = ["adbc-driver-manager[dbapi]", "adbc-driver-sqlite[dbapi]"]
+all = ["polars[async,cloudpickle,database,deltalake,excel,fsspec,graph,iceberg,numpy,pandas,plot,pyarrow,pydantic,style,timezone]"]
+async = ["gevent"]
+calamine = ["fastexcel (>=0.9)"]
+cloudpickle = ["cloudpickle"]
+connectorx = ["connectorx (>=0.3.2)"]
+database = ["polars[adbc,connectorx,sqlalchemy]"]
+deltalake = ["deltalake (>=1.0.0)"]
+excel = ["polars[calamine,openpyxl,xlsx2csv,xlsxwriter]"]
+fsspec = ["fsspec"]
+gpu = ["cudf-polars-cu12"]
+graph = ["matplotlib"]
+iceberg = ["pyiceberg (>=0.7.1)"]
+numpy = ["numpy (>=1.16.0)"]
+openpyxl = ["openpyxl (>=3.0.0)"]
+pandas = ["pandas", "polars[pyarrow]"]
+plot = ["altair (>=5.4.0)"]
+polars-cloud = ["polars_cloud (>=0.4.0)"]
+pyarrow = ["pyarrow (>=7.0.0)"]
+pydantic = ["pydantic"]
+rt64 = ["polars-runtime-64 (==1.36.1)"]
+rtcompat = ["polars-runtime-compat (==1.36.1)"]
+sqlalchemy = ["polars[pandas]", "sqlalchemy"]
+style = ["great-tables (>=0.8.0)"]
+timezone = ["tzdata ; platform_system == \"Windows\""]
+xlsx2csv = ["xlsx2csv (>=0.8.0)"]
+xlsxwriter = ["xlsxwriter"]
+
+[[package]]
+name = "polars-runtime-32"
+version = "1.36.1"
+description = "Blazingly fast DataFrame library"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "polars_runtime_32-1.36.1-cp39-abi3-macosx_10_12_x86_64.whl", hash = "sha256:327b621ca82594f277751f7e23d4b939ebd1be18d54b4cdf7a2f8406cecc18b2"},
+    {file = "polars_runtime_32-1.36.1-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:ab0d1f23084afee2b97de8c37aa3e02ec3569749ae39571bd89e7a8b11ae9e83"},
+    {file = "polars_runtime_32-1.36.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:899b9ad2e47ceb31eb157f27a09dbc2047efbf4969a923a6b1ba7f0412c3e64c"},
+    {file = "polars_runtime_32-1.36.1-cp39-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:d9d077bb9df711bc635a86540df48242bb91975b353e53ef261c6fae6cb0948f"},
+    {file = "polars_runtime_32-1.36.1-cp39-abi3-win_amd64.whl", hash = "sha256:cc17101f28c9a169ff8b5b8d4977a3683cd403621841623825525f440b564cf0"},
+    {file = "polars_runtime_32-1.36.1-cp39-abi3-win_arm64.whl", hash = "sha256:809e73857be71250141225ddd5d2b30c97e6340aeaa0d445f930e01bef6888dc"},
+    {file = "polars_runtime_32-1.36.1.tar.gz", hash = "sha256:201c2cfd80ceb5d5cd7b63085b5fd08d6ae6554f922bcb941035e39638528a09"},
+]
+
+[[package]]
 name = "pre-commit"
 version = "4.3.0"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
@@ -1881,6 +1944,66 @@ files = [
 
 [package.extras]
 tests = ["pytest"]
+
+[[package]]
+name = "pyarrow"
+version = "22.0.0"
+description = "Python library for Apache Arrow"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "pyarrow-22.0.0-cp310-cp310-macosx_12_0_arm64.whl", hash = "sha256:77718810bd3066158db1e95a63c160ad7ce08c6b0710bc656055033e39cdad88"},
+    {file = "pyarrow-22.0.0-cp310-cp310-macosx_12_0_x86_64.whl", hash = "sha256:44d2d26cda26d18f7af7db71453b7b783788322d756e81730acb98f24eb90ace"},
+    {file = "pyarrow-22.0.0-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:b9d71701ce97c95480fecb0039ec5bb889e75f110da72005743451339262f4ce"},
+    {file = "pyarrow-22.0.0-cp310-cp310-manylinux_2_28_x86_64.whl", hash = "sha256:710624ab925dc2b05a6229d47f6f0dac1c1155e6ed559be7109f684eba048a48"},
+    {file = "pyarrow-22.0.0-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:f963ba8c3b0199f9d6b794c90ec77545e05eadc83973897a4523c9e8d84e9340"},
+    {file = "pyarrow-22.0.0-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:bd0d42297ace400d8febe55f13fdf46e86754842b860c978dfec16f081e5c653"},
+    {file = "pyarrow-22.0.0-cp310-cp310-win_amd64.whl", hash = "sha256:00626d9dc0f5ef3a75fe63fd68b9c7c8302d2b5bbc7f74ecaedba83447a24f84"},
+    {file = "pyarrow-22.0.0-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:3e294c5eadfb93d78b0763e859a0c16d4051fc1c5231ae8956d61cb0b5666f5a"},
+    {file = "pyarrow-22.0.0-cp311-cp311-macosx_12_0_x86_64.whl", hash = "sha256:69763ab2445f632d90b504a815a2a033f74332997052b721002298ed6de40f2e"},
+    {file = "pyarrow-22.0.0-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:b41f37cabfe2463232684de44bad753d6be08a7a072f6a83447eeaf0e4d2a215"},
+    {file = "pyarrow-22.0.0-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:35ad0f0378c9359b3f297299c3309778bb03b8612f987399a0333a560b43862d"},
+    {file = "pyarrow-22.0.0-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:8382ad21458075c2e66a82a29d650f963ce51c7708c7c0ff313a8c206c4fd5e8"},
+    {file = "pyarrow-22.0.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:1a812a5b727bc09c3d7ea072c4eebf657c2f7066155506ba31ebf4792f88f016"},
+    {file = "pyarrow-22.0.0-cp311-cp311-win_amd64.whl", hash = "sha256:ec5d40dd494882704fb876c16fa7261a69791e784ae34e6b5992e977bd2e238c"},
+    {file = "pyarrow-22.0.0-cp312-cp312-macosx_12_0_arm64.whl", hash = "sha256:bea79263d55c24a32b0d79c00a1c58bb2ee5f0757ed95656b01c0fb310c5af3d"},
+    {file = "pyarrow-22.0.0-cp312-cp312-macosx_12_0_x86_64.whl", hash = "sha256:12fe549c9b10ac98c91cf791d2945e878875d95508e1a5d14091a7aaa66d9cf8"},
+    {file = "pyarrow-22.0.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:334f900ff08ce0423407af97e6c26ad5d4e3b0763645559ece6fbf3747d6a8f5"},
+    {file = "pyarrow-22.0.0-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:c6c791b09c57ed76a18b03f2631753a4960eefbbca80f846da8baefc6491fcfe"},
+    {file = "pyarrow-22.0.0-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:c3200cb41cdbc65156e5f8c908d739b0dfed57e890329413da2748d1a2cd1a4e"},
+    {file = "pyarrow-22.0.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:ac93252226cf288753d8b46280f4edf3433bf9508b6977f8dd8526b521a1bbb9"},
+    {file = "pyarrow-22.0.0-cp312-cp312-win_amd64.whl", hash = "sha256:44729980b6c50a5f2bfcc2668d36c569ce17f8b17bccaf470c4313dcbbf13c9d"},
+    {file = "pyarrow-22.0.0-cp313-cp313-macosx_12_0_arm64.whl", hash = "sha256:e6e95176209257803a8b3d0394f21604e796dadb643d2f7ca21b66c9c0b30c9a"},
+    {file = "pyarrow-22.0.0-cp313-cp313-macosx_12_0_x86_64.whl", hash = "sha256:001ea83a58024818826a9e3f89bf9310a114f7e26dfe404a4c32686f97bd7901"},
+    {file = "pyarrow-22.0.0-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:ce20fe000754f477c8a9125543f1936ea5b8867c5406757c224d745ed033e691"},
+    {file = "pyarrow-22.0.0-cp313-cp313-manylinux_2_28_x86_64.whl", hash = "sha256:e0a15757fccb38c410947df156f9749ae4a3c89b2393741a50521f39a8cf202a"},
+    {file = "pyarrow-22.0.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:cedb9dd9358e4ea1d9bce3665ce0797f6adf97ff142c8e25b46ba9cdd508e9b6"},
+    {file = "pyarrow-22.0.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:252be4a05f9d9185bb8c18e83764ebcfea7185076c07a7a662253af3a8c07941"},
+    {file = "pyarrow-22.0.0-cp313-cp313-win_amd64.whl", hash = "sha256:a4893d31e5ef780b6edcaf63122df0f8d321088bb0dee4c8c06eccb1ca28d145"},
+    {file = "pyarrow-22.0.0-cp313-cp313t-macosx_12_0_arm64.whl", hash = "sha256:f7fe3dbe871294ba70d789be16b6e7e52b418311e166e0e3cba9522f0f437fb1"},
+    {file = "pyarrow-22.0.0-cp313-cp313t-macosx_12_0_x86_64.whl", hash = "sha256:ba95112d15fd4f1105fb2402c4eab9068f0554435e9b7085924bcfaac2cc306f"},
+    {file = "pyarrow-22.0.0-cp313-cp313t-manylinux_2_28_aarch64.whl", hash = "sha256:c064e28361c05d72eed8e744c9605cbd6d2bb7481a511c74071fd9b24bc65d7d"},
+    {file = "pyarrow-22.0.0-cp313-cp313t-manylinux_2_28_x86_64.whl", hash = "sha256:6f9762274496c244d951c819348afbcf212714902742225f649cf02823a6a10f"},
+    {file = "pyarrow-22.0.0-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:a9d9ffdc2ab696f6b15b4d1f7cec6658e1d788124418cb30030afbae31c64746"},
+    {file = "pyarrow-22.0.0-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:ec1a15968a9d80da01e1d30349b2b0d7cc91e96588ee324ce1b5228175043e95"},
+    {file = "pyarrow-22.0.0-cp313-cp313t-win_amd64.whl", hash = "sha256:bba208d9c7decf9961998edf5c65e3ea4355d5818dd6cd0f6809bec1afb951cc"},
+    {file = "pyarrow-22.0.0-cp314-cp314-macosx_12_0_arm64.whl", hash = "sha256:9bddc2cade6561f6820d4cd73f99a0243532ad506bc510a75a5a65a522b2d74d"},
+    {file = "pyarrow-22.0.0-cp314-cp314-macosx_12_0_x86_64.whl", hash = "sha256:e70ff90c64419709d38c8932ea9fe1cc98415c4f87ea8da81719e43f02534bc9"},
+    {file = "pyarrow-22.0.0-cp314-cp314-manylinux_2_28_aarch64.whl", hash = "sha256:92843c305330aa94a36e706c16209cd4df274693e777ca47112617db7d0ef3d7"},
+    {file = "pyarrow-22.0.0-cp314-cp314-manylinux_2_28_x86_64.whl", hash = "sha256:6dda1ddac033d27421c20d7a7943eec60be44e0db4e079f33cc5af3b8280ccde"},
+    {file = "pyarrow-22.0.0-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:84378110dd9a6c06323b41b56e129c504d157d1a983ce8f5443761eb5256bafc"},
+    {file = "pyarrow-22.0.0-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:854794239111d2b88b40b6ef92aa478024d1e5074f364033e73e21e3f76b25e0"},
+    {file = "pyarrow-22.0.0-cp314-cp314-win_amd64.whl", hash = "sha256:b883fe6fd85adad7932b3271c38ac289c65b7337c2c132e9569f9d3940620730"},
+    {file = "pyarrow-22.0.0-cp314-cp314t-macosx_12_0_arm64.whl", hash = "sha256:7a820d8ae11facf32585507c11f04e3f38343c1e784c9b5a8b1da5c930547fe2"},
+    {file = "pyarrow-22.0.0-cp314-cp314t-macosx_12_0_x86_64.whl", hash = "sha256:c6ec3675d98915bf1ec8b3c7986422682f7232ea76cad276f4c8abd5b7319b70"},
+    {file = "pyarrow-22.0.0-cp314-cp314t-manylinux_2_28_aarch64.whl", hash = "sha256:3e739edd001b04f654b166204fc7a9de896cf6007eaff33409ee9e50ceaff754"},
+    {file = "pyarrow-22.0.0-cp314-cp314t-manylinux_2_28_x86_64.whl", hash = "sha256:7388ac685cab5b279a41dfe0a6ccd99e4dbf322edfb63e02fc0443bf24134e91"},
+    {file = "pyarrow-22.0.0-cp314-cp314t-musllinux_1_2_aarch64.whl", hash = "sha256:f633074f36dbc33d5c05b5dc75371e5660f1dbf9c8b1d95669def05e5425989c"},
+    {file = "pyarrow-22.0.0-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:4c19236ae2402a8663a2c8f21f1870a03cc57f0bef7e4b6eb3238cc82944de80"},
+    {file = "pyarrow-22.0.0-cp314-cp314t-win_amd64.whl", hash = "sha256:0c34fe18094686194f204a3b1787a27456897d8a2d62caf84b61e8dfbc0252ae"},
+    {file = "pyarrow-22.0.0.tar.gz", hash = "sha256:3d600dc583260d845c7d8a6db540339dd883081925da2bd1c5cb808f720b3cd9"},
+]
 
 [[package]]
 name = "pycodestyle"
@@ -2337,6 +2460,75 @@ files = [
 ]
 
 [[package]]
+name = "rustxes"
+version = "0.2.11"
+description = "Rust-based XES/OCEL2 event log importer"
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "rustxes-0.2.11-cp310-cp310-macosx_10_12_x86_64.whl", hash = "sha256:1fd69f91a2cf18cb297898b8577805f9bdc3d06ea0c71284dd0570c8807f1a51"},
+    {file = "rustxes-0.2.11-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:b56440c55b542961a8b7ebd496a07d668b8c199dca23689b771b52e012f5ea31"},
+    {file = "rustxes-0.2.11-cp310-cp310-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:f9732ba8b4b1b6afbe162f75481971d17c0957fc54e4fa3d241ff021d6b48c70"},
+    {file = "rustxes-0.2.11-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:32e456c8510d30a2d672397cfb79ce87849ecbd528dce53c27709174bce1432d"},
+    {file = "rustxes-0.2.11-cp310-cp310-win32.whl", hash = "sha256:c2165a5f73a6d8957dc891edd8d4c3e272e7ad43103ecd2d6cfff6779de8e847"},
+    {file = "rustxes-0.2.11-cp310-cp310-win_amd64.whl", hash = "sha256:83dee279d34a013396fe3e624147b0288ce6773e69546dd0adce0cfa12be4206"},
+    {file = "rustxes-0.2.11-cp311-cp311-macosx_10_12_x86_64.whl", hash = "sha256:165fc3327f696ae32ec4a4d63ba2c1474d58bafdb15dc8256b719cc39f33e34d"},
+    {file = "rustxes-0.2.11-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:2022bdf020bed7bfd9416b4c1680a327a627044c90d1c934b354537c2f908dca"},
+    {file = "rustxes-0.2.11-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:65b392f28aa16a27dc9c1274cee9de70d47431bace5daa7c99071aba26e0915f"},
+    {file = "rustxes-0.2.11-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b10292d763c43e8602833872574fdced33de9c3acf0264f655b6ec5360b5fff5"},
+    {file = "rustxes-0.2.11-cp311-cp311-win32.whl", hash = "sha256:67a92db49fdb096f735684cf902292c1f77eb0f162747973f49369d455691ea6"},
+    {file = "rustxes-0.2.11-cp311-cp311-win_amd64.whl", hash = "sha256:a45ad27b8580872de496ddfc626d156c03d4fede61b893f2dc7255bec662da3c"},
+    {file = "rustxes-0.2.11-cp312-cp312-macosx_10_12_x86_64.whl", hash = "sha256:68ec8a7f3b632f33f30a6f15324e8babcaab1c1b7a28aec7e7c7b92f178bf83c"},
+    {file = "rustxes-0.2.11-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:769b0bab107fd9887446418bbaf9aee67c8500b6315d539a99242424d1267271"},
+    {file = "rustxes-0.2.11-cp312-cp312-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:6bc2564682cd47848a6b87566a2803a8bd80403fb910349c02a81352f0be01c0"},
+    {file = "rustxes-0.2.11-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:845b9c533f9d5c204d178903d6089194febf9e6583afeceac43904e7dd9ba9f2"},
+    {file = "rustxes-0.2.11-cp312-cp312-win32.whl", hash = "sha256:06d69e60914b5ac71bd80ee55d0f1c6366e3e4df12d1bd63778e278fdf01b1a8"},
+    {file = "rustxes-0.2.11-cp312-cp312-win_amd64.whl", hash = "sha256:89aec36d682e3034839d2dd6dc310b53735277b052fd7c2d951527e1e3de524b"},
+    {file = "rustxes-0.2.11-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:1cbf6bcb8427ae3625a0d9d55c77233f5b32254dbd5f68c6735ad79f3841197c"},
+    {file = "rustxes-0.2.11-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:474cb365243f4872f58793fda5908234b58dde56316f7f5d75317aab55d81ac6"},
+    {file = "rustxes-0.2.11-cp313-cp313-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:53531ca9f9af5c58c6f669213df8418ad801fccf5c33cd6f2a52aee33d53eeca"},
+    {file = "rustxes-0.2.11-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:96b75dabdbe0f55d48dc2f6246ae646d9bf9c3e4f1efb7b1354a6473ad8a9cd1"},
+    {file = "rustxes-0.2.11-cp313-cp313-win32.whl", hash = "sha256:f276a22df0a023465f5ae54c4a188abf107f7e676790d91b51a7c5599435fa5f"},
+    {file = "rustxes-0.2.11-cp313-cp313-win_amd64.whl", hash = "sha256:3d8c404f090faad03d3474e3c01189cae19f4c23e16a36bf0edaa72bb0923521"},
+    {file = "rustxes-0.2.11-cp313-cp313t-macosx_10_12_x86_64.whl", hash = "sha256:d91cc7e84b9b8f675da4bc006df20438dd88e07fea945c8593d500789d0d9525"},
+    {file = "rustxes-0.2.11-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:d548b8c4eb3ea9e87641f5ecb33a74ad9cbb99e1623904177bd25a36a86e96d2"},
+    {file = "rustxes-0.2.11-cp313-cp313t-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:836dbf189e6b7c6c1412b2925c94b9d301061713e502e36e429c302e8f4fcab0"},
+    {file = "rustxes-0.2.11-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:452de49de02c135d4a72982b496971e057b01c2a31eb3c8752b50355fb98f093"},
+    {file = "rustxes-0.2.11-cp314-cp314-macosx_10_12_x86_64.whl", hash = "sha256:aa6eae713a1adfe984c36e605ff4450bbe2ae3df3288a568126b872b2804a156"},
+    {file = "rustxes-0.2.11-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:9355e753c2bd86af7e54c49aae97ce25b50e820987c7ab664f03b7edb89734d3"},
+    {file = "rustxes-0.2.11-cp314-cp314-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:0198e8e50cfb78574e8b449d96d97f63c2b8ad10f8d536a3067d21c579fcd2b1"},
+    {file = "rustxes-0.2.11-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:cb8edd659b3a0829d2fef83b5881a0337bf3963faa626856a248636129d0347e"},
+    {file = "rustxes-0.2.11-cp314-cp314-win32.whl", hash = "sha256:1480eee6fefea24bc9207e5da14ec2e8fb87f2dd21c2ff3aaba093f3fbb472eb"},
+    {file = "rustxes-0.2.11-cp314-cp314-win_amd64.whl", hash = "sha256:2209f0da4933856f42165262a7d33272491c938d96c0ff608bd1e08a8b772e96"},
+    {file = "rustxes-0.2.11-cp314-cp314t-macosx_10_12_x86_64.whl", hash = "sha256:255bc692f774aaf41ed1640b47104c1027cb224c87aa67a495601828c2a81e42"},
+    {file = "rustxes-0.2.11-cp314-cp314t-macosx_11_0_arm64.whl", hash = "sha256:4b7e466f33e80f3d3118acac6bee63ac7a35c5fbace389a1deaf0680cd89384c"},
+    {file = "rustxes-0.2.11-cp314-cp314t-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:16789b4af4f04895be8adc8ba019b35568ea103221e4979876eb0c085ca0513f"},
+    {file = "rustxes-0.2.11-cp314-cp314t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:86aa3b8ade369cac3e802a633dae3a8ae81aed1bb1bf0f63aafff5b13103dbfc"},
+    {file = "rustxes-0.2.11-cp37-cp37m-macosx_10_12_x86_64.whl", hash = "sha256:9ea9286e8f7b44217fef0cfbb6b8461e8658adfb7571f204e866470fa3ec83c0"},
+    {file = "rustxes-0.2.11-cp37-cp37m-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:9dd1d8cb6db2e3896c9228269b9bcc4be4f2bf444b063e1fdd2533eb25d87b68"},
+    {file = "rustxes-0.2.11-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:75508929dd0a36ed2f0c0809fced8182dbe635e2faa5b81b0f8a1d0633f88cff"},
+    {file = "rustxes-0.2.11-cp37-cp37m-win32.whl", hash = "sha256:df6cc4255eadd97b96684f898d5a0350da7e7c503780a8502932468c7d3841b4"},
+    {file = "rustxes-0.2.11-cp37-cp37m-win_amd64.whl", hash = "sha256:26780759a1788cf3b85ebf616d19459bc8c46731d529a53773b46a669208c287"},
+    {file = "rustxes-0.2.11-cp38-cp38-macosx_10_12_x86_64.whl", hash = "sha256:48eb7629fb127eec926009254da3fa405f94f10b600198fd2698155d4668a90b"},
+    {file = "rustxes-0.2.11-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:fc64f8ceea1cfe63ef668a717b01558adb6b9540f9540c0c863ef695132c1ef8"},
+    {file = "rustxes-0.2.11-cp38-cp38-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:0717e977a0dad79158aa93a04b3582e9ba0dd283ce7e25133ec34fb46d028d27"},
+    {file = "rustxes-0.2.11-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:33c746e7fc110bbb0d5fd63afe22c1eb3d4f5a1080f0f9734d08781550dbd228"},
+    {file = "rustxes-0.2.11-cp38-cp38-win32.whl", hash = "sha256:ce0481df61e1b09016e3f9b289e8e6984588d75d04717537dc7d5d6517a75671"},
+    {file = "rustxes-0.2.11-cp38-cp38-win_amd64.whl", hash = "sha256:21a1729f3aff2afce865e62777302eb1f1e90733f80864f894c72303d761650c"},
+    {file = "rustxes-0.2.11-cp39-cp39-macosx_10_12_x86_64.whl", hash = "sha256:5548b5a4ed9bcd43a2dae629d4d4517451baf8d5f242f621f2071acb2db681e9"},
+    {file = "rustxes-0.2.11-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:e16a67f9041e3fc6a13db39136abf9c8d4cb779a9b5a71cd6ceed6316cc93aab"},
+    {file = "rustxes-0.2.11-cp39-cp39-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:09eb6b6ea9435c949bb3d12a1be8866100ad235d53e9ce631fa987e267b0d84a"},
+    {file = "rustxes-0.2.11-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:fda948b82f1a9a5a7531daac4103af73904e724cd789d699f42f5ad512eff0b7"},
+    {file = "rustxes-0.2.11-cp39-cp39-win32.whl", hash = "sha256:d2a8f07adb948aa0a825de5bb32053057fc22fa3aead5bc492ad93919f6eefc8"},
+    {file = "rustxes-0.2.11-cp39-cp39-win_amd64.whl", hash = "sha256:9c6e78144899a31d03b9000f27fdbc9e5a505cdd6b5debabd9c3ab16830abe80"},
+    {file = "rustxes-0.2.11.tar.gz", hash = "sha256:a45ca2a1b018f34a1ec48221d81ca8fadedfdf77a1b74b1171dc7b2a6c282066"},
+]
+
+[package.dependencies]
+polars = {version = "*", extras = ["pandas", "pyarrow"]}
+
+[[package]]
 name = "scikit-learn"
 version = "1.7.2"
 description = "A set of python modules for machine learning and data mining"
@@ -2714,4 +2906,4 @@ test = ["pytest (>=6.0.0)", "setuptools (>=65)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "e933faee1ae7d9f2b1642f53e4aa5957487aa624d9ccbd5b708ae41127e53a5b"
+content-hash = "b99102fec50a5b298bff786d07262cc0711bf574310675a6fbc1afbb58d2478f"
