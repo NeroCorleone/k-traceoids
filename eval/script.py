@@ -11,7 +11,7 @@ logging.basicConfig(
 )
 
 # Parameters
-datasets = ["bpi2015-downsampled-20"]
+datasets = ["bpi2013-downsampled"]
 pms = [
     "imf",
     # "hm",
@@ -22,9 +22,9 @@ ccs = [
     "al",
 ]
 
-ks = range(2, 4, 1)
+ks = range(2, 11, 1)
 max_iterations = 100
-num_workers = 1 # 5 # int(mp.cpu_count() / 2)
+num_workers = 20 # 5 # int(mp.cpu_count() / 2)
 result_dir = ktr.data.make_result_dir()
 
 if __name__ == "__main__":
