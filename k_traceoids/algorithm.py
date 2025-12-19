@@ -12,10 +12,11 @@ warnings.filterwarnings("ignore", category=Warning, module="pandas")
 
 # TODO Split this up into A) Core clustering logic and B) Experimental result, times, fitnesses, etc...
 def cluster(params):
-    log, k, pm, cc, max_iterations, ds = params
+    k, pm, cc, max_iterations, ds = params
     print(
         f"Starting k-traceoids for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
     )
+    log = ktr.data.prepare_log(f"./datasets/{ds}.xes")
 
     iteration = 0
     cluster_assignment = ktr.initialization.initialize_clusters(log, k)

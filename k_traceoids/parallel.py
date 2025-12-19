@@ -7,7 +7,7 @@ import k_traceoids as ktr
 _logger = logging.getLogger(__name__)
 
 
-def execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
+def execute(ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
     _logger.info(f"Starting to execute for dataset {ds}...")
     tq = mp.Queue()
     rq = mp.Queue()
@@ -16,7 +16,7 @@ def execute(log, ds, pms, ccs, ks, max_iterations, num_workers, result_dir):
     for pm in pms:
         for cc in ccs:
             for k in ks:
-                params = [log, k, pm, cc, max_iterations, ds]
+                params = [k, pm, cc, max_iterations, ds]
                 tq.put(params)
     _logger.info(f"Task queue filled.")
 
