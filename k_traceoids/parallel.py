@@ -87,7 +87,7 @@ def writer(result_queue, result_dir, num_tasks):
 
 
 def write_result(params, result, result_dir):
-    _, k, pm, cc, max_iterations, ds = params
+    k, pm, cc, max_iterations, ds = params
     print(
         f"Writing results for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
     )
