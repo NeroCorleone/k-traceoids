@@ -25,9 +25,9 @@ ccs = [
 ks = range(2, 11, 1)
 max_iterations = 100
 num_workers = 20 
-result_dir = ktr.data.make_result_dir()
 
 if __name__ == "__main__":
     for ds in datasets:
+        result_dir = ktr.data.make_result_dir(ds)
         # Parallel execution for each hyperparamenter configuration with multiprocessing
         ktr.parallel.execute(ds, pms, ccs, ks, max_iterations, num_workers, result_dir)

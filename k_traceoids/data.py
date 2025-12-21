@@ -46,9 +46,9 @@ def store_intermediate_results(models, fitness, iteration, result_dir):
         pn_visualizer.save(gviz, m_plot)
 
 
-def make_result_dir():
+def make_result_dir(ds):
     runtime = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    result_dir = os.path.abspath(f"results/{runtime}")
+    result_dir = os.path.abspath(f"results/{ds}/{runtime}")
     if not os.path.isdir(result_dir):
         os.makedirs(result_dir)
     return result_dir
