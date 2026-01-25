@@ -52,7 +52,7 @@ def cluster(params):
             execution_seconds = end_time - start_time
             all_times.append(execution_seconds)
 
-            if check_convergence(cluster_assignment, iteration, max_iterations):
+            if check_convergence(cluster_assignment, iteration, max_iterations, threshold=0.95):
                 print(
                     f"K-traceoids run complete with parameters k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
                 )
@@ -67,18 +67,27 @@ def cluster(params):
             return None
 
 
-def check_convergence(cluster_assignment, iteration, max_iterations):
+def check_convergence(cluster_assignment, iteration, max_iterations, threshold=None):
     # Reached maximum number of iterations
     print(
         f"Checking conformance for iteration {iteration} of {max_iterations}....",
     )
     if iteration >= max_iterations:
         return True
-    # Check if the last two columns are the same
-    before_last_col, last_col = cluster_assignment.columns[-2:]
-    cond = cluster_assignment[before_last_col].equals(
-        cluster_assignment[last_col],
-    )
-    if cond:
-        return True
-    return False
+    if threshold is None:
+        # Check if the last two columns are the same
+        before_last_col, last_col = cluster_assignment.columns[-2:]
+        cond = cluster_assignment[before_last_col].equals(
+            cluster_assignment[last_col],
+        )
+        if cond:
+            return True
+        return False
+    else:
+        # Threshold needs to be a value between 0 and 1
+        col1, col2 = cluster_assignment.iloc[:, -2], cluster_assignment.iloc[:, -1]
+        percent_equal = (col1 == col2).mean()
+        print(f"Percent equal: {percent_equal}")
+        if percent_equal >= threshold:
+            return True
+        return False
