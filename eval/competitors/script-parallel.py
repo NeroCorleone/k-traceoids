@@ -6,6 +6,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from schedule import run
 from utils import store_results
 
+NUM_WORKERS = 10
 
 ks = range(2, 9, 1)
 
@@ -60,7 +61,7 @@ def run_single_experiment(ds_name, run_timestamp, competitor, k):
 def main():
     jobs = []
 
-    with ProcessPoolExecutor() as executor:
+    with ProcessPoolExecutor(max_workers=NUM_WORKERS) as executor:
         for ds_name in datasets:
             run_timestamp = datetime.datetime.now().strftime("%Y%m%d-%H:%M:%S")
 
