@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT="python script.py"
+SCRIPT="python script-parallel.py"
 
 for i in {1..5}
 do
