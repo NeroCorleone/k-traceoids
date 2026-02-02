@@ -24,9 +24,6 @@ def select_window(
     remaining: Dict[Trace, int],
     w: float
 ) -> List[Trace]:
-    """
-    Select top-w fraction of remaining traces by frequency.
-    """
     if w == 0:
         return [max(remaining, key=remaining.get)]
 
@@ -80,7 +77,6 @@ def resolve_residuals(
             key=lambda i: model_fitness(models[i], sublog)
         )
         clusters[best_cluster].add(trace)
-        print(f"Added trace during resolution {len(remaining)}")
 
     return clusters
 
@@ -105,7 +101,6 @@ def look_ahead_phase(
         if model_fitness(model, trace) >= tf:
             fitting.add(trace)
             remaining.pop(trace)
-            print(f"In look ahead: {len(remaining)}")
     return cluster | fitting
 
 
@@ -121,8 +116,6 @@ def selection_phase(
 
     C = set() # current cluster
     skipped = set()
-    print(remaining)
-    print(f"Starting with {len(remaining)} variants.")
 
     while remaining:
         window = select_window(remaining, w)
@@ -136,13 +129,10 @@ def selection_phase(
         if fitness >= tf:
             C.add(candidate)
             remaining.pop(candidate)
-            print(f"Here: {len(remaining)}")
             return C
         else:
             cluster_size = len(C)
             if cluster_size >= mcs * len(remaining):
-                print(f"cluster_size: {cluster_size}")
-                print(f"remaining: {len(remaining)}")
                 # Phase 2: desired cluster is reached
                 C = look_ahead_phase(C, remaining, tf, log) 
                 # TODO check!
@@ -150,7 +140,6 @@ def selection_phase(
             else:
                 skipped.add(candidate)
                 remaining.pop(candidate)
-                print(f"skipped: {len(remaining)}")
     return C
 
 

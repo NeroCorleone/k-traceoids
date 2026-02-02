@@ -203,9 +203,7 @@ def insert_random_activity_sequence(tree, activity_label, seed):
 
 
 # M4: Add a loop somewhere
-def add_random_loop(tree, seed=None):
-    if seed is not None:
-        random.seed(seed)
+def add_random_loop(tree):
     tree = clone_tree(tree)
 
     candidates = get_all_nodes(tree)
@@ -267,6 +265,21 @@ def change_random_seq_to_parallel(tree):
     return tree
 
 
+def change_random_parallel_to_sequence(tree):
+    seq_nodes = [
+        n for n in get_all_nodes(tree)
+        if n.operator == Operator.PARALLEL and len(n.children) >= 2
+    ]
+
+    if not seq_nodes:
+        return tree
+
+    target = random.choice(seq_nodes)
+    target.operator = Operator.SEQUENCE
+
+    return tree
+
+
 def insert_optional_activity(tree, activity_name, seed=None):
     # Insert an optional activity with XOR at random position in the tree
     if seed is not None:
@@ -299,6 +312,69 @@ def insert_optional_activity(tree, activity_name, seed=None):
         parent.children[idx] = seq_node
         seq_node.parent = parent
         return tree
+
+
+def subtree_leaf_count(node):
+    if node.operator is None:
+        return 1 if node.label is not None else 0
+    return sum(subtree_leaf_count(c) for c in node.children)
+
+
+def collect_subtrees_with_size(tree):
+    subtrees = []
+
+    def _visit(node):
+        for child in node.children:
+            size = subtree_leaf_count(child)
+            subtrees.append((child, size))
+            _visit(child)
+
+    _visit(tree)
+    return subtrees
+
+
+def size_filtered_subtrees(tree, max_fraction=0.5, min_fraction=0.2):
+    total = subtree_leaf_count(tree)
+    return [
+        node for node, size in collect_subtrees_with_size(tree)
+        if size / total <= max_fraction and size/total >= min_fraction
+    ]
+
+
+def replace_random_non_largest_subtree_with_tau(
+    tree,
+    max_fraction=0.5,
+    min_fraction=0.2,
+    seed=None
+):
+    tree = clone_tree(tree)
+    if seed is not None:
+        random.seed(seed)
+
+    candidates = size_filtered_subtrees(tree, max_fraction, min_fraction)
+
+    candidates = [
+        n for n in candidates
+        if n.parent is not None and len(n.parent.children) > 1
+    ]
+    print(candidates)
+
+    if not candidates:
+        raise ValueError("No eligible subtree found under size constraint")
+
+    subtree = random.choice(candidates)
+    print(subtree)
+    parent = subtree.parent
+
+    tau = ProcessTree(operator=None, label=None)
+    tau.parent = parent
+
+    idx = parent.children.index(subtree)
+    parent.children[idx] = tau
+    subtree.parent = None
+
+    return tree
+
 
 def eventlog_to_xes_dataframe(log):
     rows = []
