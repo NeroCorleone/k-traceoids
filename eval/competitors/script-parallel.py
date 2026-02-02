@@ -33,10 +33,7 @@ def ensure_dir(path):
 def run_single_experiment(ds_name, run_timestamp, competitor, k):
     ds_path = f"../datasets/{ds_name}.xes"
 
-    result_dir = (
-        f"./results/{ds_name}/{run_timestamp}/"
-        f"{competitor}/k={k}"
-    )
+    result_dir = f"./results/{ds_name}/{run_timestamp}/"
     ensure_dir(result_dir)
 
     print(f"[START] {ds_name} | {competitor} | k={k}")
