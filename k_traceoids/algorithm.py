@@ -9,10 +9,13 @@ warnings.filterwarnings("ignore", category=Warning, module="pm4py")
 warnings.filterwarnings("ignore", category=Warning, module="pd")
 warnings.filterwarnings("ignore", category=Warning, module="pandas")
 
-
 # TODO Split this up into A) Core clustering logic and B) Experimental result, times, fitnesses, etc...
 def cluster(params):
+    # TODO clean this up
+    # k, pm, cc, max_iterations, ds, params_discovery, threshold = params
     k, pm, cc, max_iterations, ds = params
+    params_discovery = None
+    threshold = 0.99 
     print(
         f"Starting k-traceoids for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
     )
@@ -30,7 +33,7 @@ def cluster(params):
             print(
                 f"Discovering process models for {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )
-            models = ktr.models.calculate_model(log, pm, cluster_assignment)
+            models = ktr.models.calculate_model(log, pm, cluster_assignment, params_discovery)
             print(
                 f"Checking conformance for data set {ds} with k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
             )
@@ -52,7 +55,7 @@ def cluster(params):
             execution_seconds = end_time - start_time
             all_times.append(execution_seconds)
 
-            if check_convergence(cluster_assignment, iteration, max_iterations, threshold=0.95):
+            if check_convergence(cluster_assignment, iteration, max_iterations, threshold=threshold):
                 print(
                     f"K-traceoids run complete with parameters k={k}, pm={pm}, cc={cc} and max_iter={max_iterations}",
                 )

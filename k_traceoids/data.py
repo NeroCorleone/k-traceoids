@@ -28,22 +28,35 @@ def store_intermediate_results(models, fitness, iteration, result_dir):
     )
     fitness.to_csv(fitness_file)
 
+    # check type of model here
     for model_nb, model in enumerate(models):
         # Store model
-        m_file = os.path.join(
-            model_dir,
-            f"model_{model_nb}.json",  # Model nb is the cluster nb
-        )
-        pnet, im, fm = model
-        pm4py.write_pnml(pnet, im, fm, m_file)
-
-        # Plot models
-        gviz = pn_visualizer.apply(pnet, im, fm)
-        m_plot = os.path.join(
-            model_dir,
-            f"model_plot{model_nb}.png",
-        )
-        pn_visualizer.save(gviz, m_plot)
+        if type(model) == dict:
+            # then we have the declare model
+            m_file = os.path.join(
+                model_dir,
+                f"model_{model_nb}.txt",  # Model nb is the cluster nb
+            )
+            
+            # There is a textual description, no plot?
+            text_abstr = pm4py.llm.abstract_declare(model)
+            with open(m_file, "w") as mf:
+                mf.write(text_abstr)
+        else:
+            # everything else, this is then a petri net
+            m_file = os.path.join(
+                model_dir,
+                f"model_{model_nb}.json",  # Model nb is the cluster nb
+            )
+            pnet, im, fm = model
+            pm4py.write_pnml(pnet, im, fm, m_file)
+            # Plot models
+            gviz = pn_visualizer.apply(pnet, im, fm)
+            m_plot = os.path.join(
+                model_dir,
+                f"model_plot{model_nb}.png",
+            )
+            pn_visualizer.save(gviz, m_plot)
 
 
 def make_result_dir(ds):
