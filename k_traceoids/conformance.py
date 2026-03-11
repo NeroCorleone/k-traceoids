@@ -2,6 +2,7 @@ import pm4py
 import pandas as pd
 import numpy as np
 import concurrent.futures
+from pm4py.algo.evaluation.precision.algorithm import apply as precision_apply
 
 
 CONFORMANCES = {
@@ -13,6 +14,66 @@ CONFORMANCE_TIMEOUT = 2 * 60
 
 
 def check_conformance(log, models, cc):
+    trace_to_variant = log[["@@case_index", "variant_id"]]
+    vid_to_f1 = {}
+    for vid, df_ in log.groupby("variant_id"):
+        case_index = np.random.choice(df_["@@case_index"].values)
+        log_select = df_[df_["@@case_index"] == case_index]
+        fitnesses = _fitness(log_select, models, cc)
+        precisions = _precisions(log_select, models)
+        f1 = _f1(fitnesses, precisions)
+        vid_to_f1[vid] = f1
+    
+    variants_f1 = pd.DataFrame(vid_to_f1).T
+
+    variants_f1 = variants_f1.reset_index()
+    variants_f1 = variants_f1.rename(columns={"index": "variant_id"})
+    f1 = variants_f1.merge(trace_to_variant).sort_values(
+        "@@case_index",
+        ascending=True,
+    )
+    f1 = f1.drop_duplicates(subset="@@case_index")
+    f1 = f1.drop(columns=["@@case_index", "variant_id"])
+    f1 = f1.reset_index(drop=True)
+    return f1  
+
+def _f1(fitnesses, precisions):
+    f = np.array(fitnesses) 
+    p = np.array(precisions)
+    f1 = 2 * f * p / (f + p)
+    return f1
+
+def _precisions(log_select, models):
+    # TODO this is not going to work with declare models
+    precisions = []
+    for net, im, fm in models:
+        precisions.append(
+            precision_apply(log_select, net, im, fm)
+        )
+    return precisions
+
+def _fitness(log_select, models, cc):
+    fitnesses = []
+    for model in models:
+        try:
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(
+                    _calculate_fitness,
+                    log_select,
+                    model,
+                    cc,
+                )
+                conformance_value = future.result(
+                    timeout=CONFORMANCE_TIMEOUT,
+                )
+        except concurrent.futures.TimeoutError:
+            print("Timeout for conformance check")
+            conformance_value = 0
+        fitnesses.append(conformance_value)
+    return fitnesses
+
+
+def check_conformance_old(log, models, cc):
     # Calculate fitness on variant level as this saves time:
     # fitnes is the same for all traces of the same variant
     trace_to_variant = log[["@@case_index", "variant_id"]]
